@@ -1,0 +1,44 @@
+config:
+  # COM-Port des Displays, z. B. COM3 - oder AUTO fuer automatische Erkennung
+  COM_PORT: AUTO
+
+  # Theme (Ordnername unter res/themes)
+  THEME: sudoAndro
+
+  # Sensor-Quelle: LHM = LibreHardwareMonitor (Windows, braucht Adminrechte, volle Sensorik)
+  # PYTHON = ohne Adminrechte, aber ohne CPU-Temperatur | STATIC = Beispieldaten
+  HW_SENSORS: LHM
+
+  # Netzwerkkarten (Windows-Anzeigenamen, z. B. "Ethernet", "WLAN") - leer = deaktiviert
+  ETH: ""
+  WLO: ""
+
+  # CPU-Luefter-Sensor (AUTO = automatisch waehlen)
+  CPU_FAN: AUTO
+
+  # Ziel fuer den Ping-Sensor
+  PING: 8.8.8.8
+
+  # Wetter (optional): kostenlosen API-Key auf https://openweathermap.org erstellen.
+  # Es wird die kostenlose "Current Weather"-API 2.5 genutzt - KEIN Abo noetig.
+  # Neue Keys brauchen 10 Min. bis ~2 Std. bis zur Freischaltung.
+  WEATHER_API_KEY: ""
+  # Standort: https://www.latlong.net/
+  WEATHER_LATITUDE: "46.948"
+  WEATHER_LONGITUDE: "7.447"
+  WEATHER_UNITS: metric
+  WEATHER_LANGUAGE: de
+
+display:
+  # A = Turing Smart Screen 3.5" und baugleiche Temu/AliExpress-Klone ("UsbPCMonitor")
+  REVISION: A
+
+  # Helligkeit in % (Achtung: hohe Helligkeit macht das Display warm)
+  BRIGHTNESS: 20
+
+  # Anzeige um 180 Grad drehen
+  DISPLAY_REVERSE: false
+
+  # Display beim Start zuruecksetzen - unbedingt an lassen! Heilt haengengebliebene
+  # Displays (Protokoll ohne Framing, siehe README)
+  RESET_ON_STARTUP: true
