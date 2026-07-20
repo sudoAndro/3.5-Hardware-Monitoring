@@ -1,10 +1,9 @@
 ---
-author: "@mathoudebine"
-
+# Bearbeitet mit sudoAndro Studio
+author: '@mathoudebine'
 display:
   DISPLAY_ORIENTATION: landscape
   DISPLAY_RGB_LED: 66, 207, 239
-
 static_images:
   BACKGROUND:
     PATH: background.png
@@ -17,8 +16,8 @@ STATS:
     PERCENTAGE:
       INTERVAL: 1
       TEXT:
-        SHOW: True
-        SHOW_UNIT: False
+        SHOW: true
+        SHOW_UNIT: false
         X: 120
         Y: 137
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -26,7 +25,7 @@ STATS:
         FONT_COLOR: 255, 255, 255
         BACKGROUND_IMAGE: background.png
       GRAPH:
-        SHOW: True
+        SHOW: true
         X: 14
         Y: 160
         WIDTH: 140
@@ -34,13 +33,13 @@ STATS:
         MIN_VALUE: 0
         MAX_VALUE: 100
         BAR_COLOR: 66, 207, 239
-        BAR_OUTLINE: False
+        BAR_OUTLINE: false
         BACKGROUND_IMAGE: background.png
     FREQUENCY:
       INTERVAL: 5
       TEXT:
-        SHOW: True
-        SHOW_UNIT: True
+        SHOW: true
+        SHOW_UNIT: true
         X: 48
         Y: 281
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -50,8 +49,8 @@ STATS:
     TEMPERATURE:
       INTERVAL: 5
       TEXT:
-        SHOW: True
-        SHOW_UNIT: True
+        SHOW: true
+        SHOW_UNIT: true
         X: 110
         Y: 98
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -62,7 +61,7 @@ STATS:
     INTERVAL: 1
     PERCENTAGE:
       GRAPH:
-        SHOW: True
+        SHOW: true
         X: 14
         Y: 206
         WIDTH: 140
@@ -70,11 +69,11 @@ STATS:
         MIN_VALUE: 0
         MAX_VALUE: 100
         BAR_COLOR: 66, 207, 239
-        BAR_OUTLINE: False
+        BAR_OUTLINE: false
         BACKGROUND_IMAGE: background.png
       TEXT:
-        SHOW: True
-        SHOW_UNIT: False
+        SHOW: true
+        SHOW_UNIT: false
         X: 120
         Y: 183
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -85,7 +84,7 @@ STATS:
     INTERVAL: 5
     VIRTUAL:
       GRAPH:
-        SHOW: True
+        SHOW: true
         X: 14
         Y: 250
         WIDTH: 140
@@ -93,11 +92,11 @@ STATS:
         MIN_VALUE: 0
         MAX_VALUE: 100
         BAR_COLOR: 66, 207, 239
-        BAR_OUTLINE: False
+        BAR_OUTLINE: false
         BACKGROUND_IMAGE: background.png
       PERCENT_TEXT:
-        SHOW: True
-        SHOW_UNIT: False
+        SHOW: true
+        SHOW_UNIT: false
         X: 120
         Y: 227
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -109,7 +108,7 @@ STATS:
     DAY:
       TEXT:
         FORMAT: medium
-        SHOW: True
+        SHOW: true
         X: 14
         Y: 64
         FONT: generale-mono/GeneraleMonoA.ttf
@@ -121,13 +120,13 @@ STATS:
     HOUR:
       TEXT:
         FORMAT: short
-        SHOW: True
+        SHOW: true
         X: 14
         Y: 26
         FONT: generale-mono/GeneraleMonoA.ttf
         FONT_SIZE: 26
         FONT_COLOR: 255, 255, 255
         BACKGROUND_COLOR: 16, 24, 49
-        WIDTH: 115  # Increase to 160 if you need the time to cover the star (e.g. am/pm indicator) 
+        WIDTH: 115
         HEIGHT: 30
         ANCHOR: lm

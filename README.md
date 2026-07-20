@@ -7,7 +7,7 @@ Display-Aus beim Abmelden/Herunterfahren.
 
 *English summary below.*
 
-![sudoAndro Theme](docs/theme-sudoandro.png)
+![sudoAndro Display](docs/foto-sudoandro.jpg)
 
 ## ✨ Was kann es?
 
@@ -23,6 +23,10 @@ Display-Aus beim Abmelden/Herunterfahren.
 - **Selbstheilung:** hängengebliebene Displays werden beim Start automatisch zurückgesetzt
 
 ![sudoAndro Studio](docs/sudoandro-studio.png)
+
+| Eigenes Theme im Studio gebaut | Mitgeliefertes Theme | Mitgeliefertes Theme |
+|---|---|---|
+| ![sudoAndro](docs/theme-sudoandro.png) | ![Theme 2](docs/foto-theme2.jpg) | ![Theme 3](docs/foto-theme3.jpg) |
 
 ## 🖥️ Unterstützte Hardware
 

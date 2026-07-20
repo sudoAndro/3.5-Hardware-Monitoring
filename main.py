@@ -114,21 +114,21 @@ if __name__ == "__main__":
         clean_stop()
 
     def on_configure_tray(tray_icon, item):
-        logger.info("Configure from tray icon")
-
+        # Oeffnet das sudoAndro Studio - der Monitor laeuft dabei WEITER
+        # (das Studio rendert nur simuliert und braucht den COM-Port nicht)
+        logger.info("Open sudoAndro Studio from tray icon")
         try:
-            # Load Python file with local python interpreter (useful for venvs)
-            configure_file = next(MAIN_DIRECTORY.glob("configure.py"))
-            subprocess.Popen([sys.executable, str(configure_file)])
-        except:
-            # Load binary (for releases) or Python file with system interpreter
-            configure_file = next(MAIN_DIRECTORY.glob("configure*"))
-            if platform.system() == "Windows":
-                subprocess.Popen([str(configure_file)], shell=True)
+            studio_exe = MAIN_DIRECTORY / "sudoAndro-Studio.exe"
+            studio_py = MAIN_DIRECTORY / "theme-studio.py"
+            pythonw = MAIN_DIRECTORY / ".venv" / "Scripts" / "pythonw.exe"
+            if studio_exe.exists():
+                subprocess.Popen([str(studio_exe)], cwd=str(MAIN_DIRECTORY))
+            elif pythonw.exists() and studio_py.exists():
+                subprocess.Popen([str(pythonw), str(studio_py)], cwd=str(MAIN_DIRECTORY))
             else:
-                subprocess.Popen([str(configure_file)])
-
-        clean_stop(tray_icon)
+                subprocess.Popen([sys.executable, str(studio_py)], cwd=str(MAIN_DIRECTORY))
+        except Exception as e:
+            logger.error("Could not open sudoAndro Studio: %s" % e)
 
     def on_exit_tray(tray_icon, item):
         logger.info("Exit from tray icon")
@@ -170,17 +170,20 @@ if __name__ == "__main__":
 
     # Create a tray icon for the program, with an Exit entry in menu
     try:
+        tray_icon_file = MAIN_DIRECTORY / "res/themes/sudoAndro/sudoandro-icon.png"
+        if not tray_icon_file.exists():
+            tray_icon_file = MAIN_DIRECTORY / "res/icons/monitor-icon-17865/64.png"
         tray_icon = pystray.Icon(
-            name='Turing System Monitor',
-            title='Turing System Monitor',
-            icon=Image.open(MAIN_DIRECTORY / "res/icons/monitor-icon-17865/64.png"),
+            name='sudoAndro Monitor',
+            title='sudoAndro Monitor',
+            icon=Image.open(tray_icon_file),
             menu=pystray.Menu(
                 pystray.MenuItem(
-                    text='Configure',
+                    text='sudoAndro Studio öffnen',
                     action=on_configure_tray),
                 pystray.Menu.SEPARATOR,
                 pystray.MenuItem(
-                    text='Exit',
+                    text='Monitor beenden (Display aus)',
                     action=on_exit_tray)
             )
         )
