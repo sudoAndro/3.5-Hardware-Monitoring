@@ -40,7 +40,8 @@ Windows 10/11. Für CPU-Temperatur & Co. wird LibreHardwareMonitor mit dem HVCI-
 
 ## 🚀 Installation
 
-1. **Python 3.9+** installieren (bei der Installation „Add to PATH" anhaken)
+1. **Python 3.10 – 3.14 (64-bit)** von [python.org](https://www.python.org/downloads/) installieren
+   (bei der Installation **„Add to PATH" anhaken!** — empfohlen: Python 3.12 oder 3.13)
 2. Dieses Repository herunterladen (grüner „Code"-Knopf → „Download ZIP") und entpacken
 3. In einer Eingabeaufforderung im Projektordner:
    ```
