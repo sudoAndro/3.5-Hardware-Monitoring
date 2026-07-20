@@ -1,0 +1,17 @@
+---
+# Leeres Startlayout (Querformat 480x320) - komplett von Null aufbauen.
+# Im Studio: "+ Element hinzufuegen" nutzen, um Sensoren nach eigenem Wunsch zu platzieren.
+author: "sudoAndro"
+
+display:
+  DISPLAY_SIZE: '3.5"'
+  DISPLAY_ORIENTATION: landscape
+  DISPLAY_RGB_LED: 0, 174, 255
+
+static_images:
+  BACKGROUND:
+    PATH: background.png
+    X: 0
+    Y: 0
+    WIDTH: 480
+    HEIGHT: 320

@@ -24,7 +24,7 @@ import yaml
 try:
     import tkinter as tk
     from tkinter import ttk, colorchooser, filedialog, messagebox, simpledialog
-    from PIL import Image, ImageTk, ImageFont
+    from PIL import Image, ImageTk, ImageFont, ImageOps
 except ImportError:
     print("[FEHLER] Tkinter/Pillow nicht installiert.")
     sys.exit(1)
@@ -39,6 +39,35 @@ _here = os.path.dirname(os.path.abspath(sys.executable if getattr(sys, "frozen",
 if not os.path.exists(os.path.join(_here, "config.yaml")) and \
         os.path.exists(os.path.join(_here, "config.example.yaml")):
     shutil.copy(os.path.join(_here, "config.example.yaml"), os.path.join(_here, "config.yaml"))
+
+# Kaputte/geloeschte Theme-Referenz in config.yaml reparieren, BEVOR library.config
+# importiert wird: library/config.py laedt beim reinen Import (Modul-Ebene) sofort das
+# dort eingetragene Theme und beendet den kompletten Prozess lautlos (sys.exit/os._exit),
+# falls der Ordner fehlt - ohne sichtbares Fenster oder Fehlermeldung bei pythonw/.exe.
+try:
+    _cfg_path = os.path.join(_here, "config.yaml")
+    with open(_cfg_path, "rt", encoding="utf8") as f:
+        _cfg_text = f.read()
+    _cfg = yaml.safe_load(_cfg_text) or {}
+    _theme_name = (_cfg.get("config") or {}).get("THEME", "")
+    _themes_root = os.path.join(_here, "res", "themes")
+    if not os.path.isfile(os.path.join(_themes_root, _theme_name, "theme.yaml")):
+        _fallback = "sudoAndro" if os.path.isfile(
+            os.path.join(_themes_root, "sudoAndro", "theme.yaml")) else None
+        if _fallback is None:
+            for _name in sorted(os.listdir(_themes_root)):
+                if os.path.isfile(os.path.join(_themes_root, _name, "theme.yaml")):
+                    _fallback = _name
+                    break
+        if _fallback:
+            import re as _re
+            _cfg_text_new = _re.sub(r"(?m)^(\s*THEME:\s*).*$", r"\g<1>" + _fallback,
+                                    _cfg_text, count=1)
+            if _cfg_text_new != _cfg_text:
+                with open(_cfg_path, "wt", encoding="utf8") as f:
+                    f.write(_cfg_text_new)
+except Exception:
+    pass  # Im Zweifel unveraendert lassen - der normale Fallback in main() greift dann noch
 
 # ---------------------------------------------------------------- Konfiguration vor Display-Import
 from library import config
@@ -372,6 +401,12 @@ class ThemeStudio(tk.Tk):
     def render(self):
         """Theme aus dem Speicher rendern -> PIL-Bild in self.render_image."""
         self.text_boxes.clear()
+        # Bitmap-Cache leeren: library/lcd/lcd_comm.py cached Bilder dauerhaft nach
+        # Dateipfad. Da im Studio Hintergrund-/Bilddateien jederzeit unter demselben
+        # Namen ueberschrieben werden koennen, wuerde sonst die ALTE Version im
+        # Speicher haengen bleiben, bis das Programm neu gestartet wird.
+        if hasattr(self.display.lcd, "image_cache"):
+            self.display.lcd.image_cache.clear()
         config.CONFIG_DATA["config"]["THEME"] = self.theme_name
         merged = copy.deepcopy(self.theme)
         config.THEME_DATA = merged
@@ -1202,7 +1237,12 @@ class ThemeStudio(tk.Tk):
         if el is None:
             return
         if el.path[:2] == ("static_images", "BACKGROUND"):
-            messagebox.showinfo("sudoAndro Studio", "Der Hintergrund kann nicht entfernt werden.")
+            # Der Hintergrund darf nie ganz fehlen (sonst rendert das Theme nicht mehr),
+            # daher bietet der Loeschen-Knopf hier stattdessen direkt den Bildwechsel an
+            messagebox.showinfo("sudoAndro Studio",
+                                "Der Hintergrund kann nicht entfernt werden, nur ersetzt.\n"
+                                "Der Dialog zum Bildwechsel öffnet sich jetzt.")
+            self.choose_background()
             return
         if not messagebox.askyesno("sudoAndro Studio", "„%s“ wirklich entfernen?" % el.label):
             return
@@ -1244,22 +1284,34 @@ class ThemeStudio(tk.Tk):
         self.open_theme(name)
 
     def choose_background(self):
-        file = filedialog.askopenfilename(parent=self, title="Hintergrundbild wählen",
-                                          filetypes=[("Bilder", "*.png *.jpg *.jpeg *.bmp")])
+        file = filedialog.askopenfilename(
+            parent=self, title="Hintergrundbild wählen",
+            filetypes=[("Bilder", "*.png *.jpg *.jpeg *.bmp *.gif *.webp"), ("Alle Dateien", "*.*")])
         if not file:
             return
         w, h = self.render_image.width, self.render_image.height
-        with Image.open(file) as im:
-            im = im.convert("RGB")
-            if im.size != (w, h):
-                if not messagebox.askyesno(
-                        "sudoAndro Studio",
-                        "Das Bild ist %dx%d, das Display %dx%d.\nSoll es angepasst (skaliert) werden?"
-                        % (im.width, im.height, w, h)):
-                    return
-                im = im.resize((w, h), Image.LANCZOS)
-            dest = os.path.join(THEMES_DIR, self.theme_name, "background.png")
-            im.save(dest, "PNG")
+        try:
+            with Image.open(file) as im:
+                im = im.convert("RGB")
+                if im.size != (w, h):
+                    if not messagebox.askyesno(
+                            "sudoAndro Studio",
+                            "Das Bild ist %dx%d, das Display %dx%d.\n"
+                            "Soll es angepasst werden (Bildausschnitt füllen, Seitenverhältnis "
+                            "bleibt erhalten - keine Verzerrung)?"
+                            % (im.width, im.height, w, h)):
+                        return
+                    im = ImageOps.fit(im, (w, h), method=Image.LANCZOS, centering=(0.5, 0.5))
+                dest = os.path.join(THEMES_DIR, self.theme_name, "background.png")
+                im.save(dest, "PNG")
+        except Exception as e:
+            messagebox.showerror(
+                "sudoAndro Studio",
+                "Das Bild konnte nicht geladen werden:\n%s\n\n"
+                "Tipp: iPhone-Fotos sind oft im HEIC-Format gespeichert, das Python nicht "
+                "lesen kann. Bild z. B. per Windows-Fotos-App oder Snipping Tool einmal als "
+                "PNG/JPG speichern und erneut versuchen." % e)
+            return
         self._push_undo(copy.deepcopy(self.theme))
         sec = self.theme.setdefault("static_images", {})
         sec["BACKGROUND"] = {"PATH": "background.png", "X": 0, "Y": 0, "WIDTH": w, "HEIGHT": h}
