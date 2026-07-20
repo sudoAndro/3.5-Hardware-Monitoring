@@ -91,7 +91,7 @@ ausgeschaltet. Details in [`display-off.py`](display-off.py) und
   von @mathoudebine und Community (GPL-3.0) — [Original-README](docs/README-upstream.md)
 - Sensorik: [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) + [PawnIO](https://pawnio.eu/)
 - Wetterdaten: [OpenWeatherMap](https://openweathermap.org)
-- sudoAndro-Theme & Idee: **Andrijan** 🦉
+- sudoAndro-Theme & Idee: **Andrijan** 
 
 ## 📄 Lizenz
 
