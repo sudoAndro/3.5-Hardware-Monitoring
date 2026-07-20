@@ -50,12 +50,18 @@ Windows 10/11. Für CPU-Temperatur & Co. wird LibreHardwareMonitor mit dem HVCI-
    ```
 4. **PawnIO-Treiber** installieren (einmalig, für die CPU-Temperatur):
    `external\PawnIO\PawnIO_setup.exe` → Installieren
-5. **Autostart einrichten:** Rechtsklick auf `install\setup-tasks.ps1` → *Mit PowerShell ausführen*
-   (UAC bestätigen). Das richtet zwei geplante Aufgaben ein:
+5. **Autostart einrichten:** Rechtsklick auf `install\setup-tasks.ps1` → *Mit PowerShell ausführen*.
+   Das Skript holt sich die Adminrechte selbst (UAC-Abfrage bestätigen) und richtet zwei
+   geplante Aufgaben ein:
    - `TuringSmartScreen` — startet den Monitor bei jeder Anmeldung
    - `TuringDisplayOff` — schaltet das Display bei Abmeldung/Herunterfahren aus
 6. **Gestalten:** `Theme-Studio.bat` doppelklicken (oder die `sudoAndro-Studio.exe` aus den
-   [Releases](../../releases)) — Theme wählen, Elemente anordnen, „📺 An Display senden"
+   [Releases](../../releases) in den Projektordner legen) — Theme wählen, Elemente anordnen,
+   „📺 An Display senden"
+
+> **Wichtig:** Auch die EXE aus den Releases ersetzt nur den Editor-Start — die Schritte 1–5
+> (Python-Umgebung + Aufgaben) sind immer nötig, denn der eigentliche Display-Monitor läuft
+> darüber.
 
 Deinstallation: `install\remove-tasks.ps1` als Administrator ausführen.
 
