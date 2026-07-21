@@ -40,6 +40,20 @@ Windows 10/11. Für CPU-Temperatur & Co. wird LibreHardwareMonitor mit dem HVCI-
 
 ## 🚀 Installation
 
+### Der einfache Weg: Setup.exe (empfohlen)
+
+1. In den [Releases](../../releases) die **`sudoAndro-Setup-v1.0.exe`** herunterladen
+2. Doppelklicken → UAC bestätigen → dem Assistenten folgen (Deutsch)
+
+Das war's: **kein Python, kein pip nötig.** Der Installer bringt alles mit, richtet den
+Autostart und das Display-Aus beim Herunterfahren automatisch ein, installiert auf Wunsch
+den PawnIO-Treiber (für die CPU-Temperatur) und legt Start­menü- und Desktop-Verknüpfungen an.
+Deinstallieren geht ganz normal über **Windows-Einstellungen → Apps**.
+
+> Beim Start meldet sich evtl. der Virenscanner — das ist ein Fehlalarm, siehe unten.
+
+### Der Entwickler-Weg: aus dem Quellcode (für Anpassungen)
+
 1. **Python 3.10 – 3.14 (64-bit)** von [python.org](https://www.python.org/downloads/) installieren
    (bei der Installation **„Add to PATH" anhaken!** — empfohlen: Python 3.12 oder 3.13)
 2. Dieses Repository herunterladen (grüner „Code"-Knopf → „Download ZIP") und entpacken

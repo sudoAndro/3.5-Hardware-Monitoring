@@ -147,8 +147,9 @@ external/LibreHardwareMonitor/LibreHardwareMonitorLib.sys
 # Persoenliche Konfiguration (enthaelt Wetter-API-Key und Standort!)
 config.yaml
 
-# Build-Artefakte (Exes werden als GitHub-Release veroeffentlicht, nicht im Repo)
+# Build-Artefakte (Exes/Installer werden als GitHub-Release veroeffentlicht, nicht im Repo)
 build-studio/
+dist-installer/
 *.exe
 
 # Laufzeit-Dateien
